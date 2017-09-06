@@ -9,17 +9,26 @@ var EOL = WINDOWS
   ? '\r\n'
   : '\n'
 
-exports.HOSTS = process.env.HOSTALIASES
+exports.HOSTS = getHostsFile();
 
-// function(){
-//   if(windows){
-//     return 'C:/Windows/System32/drivers/etc/hosts'
-//   } else if(process.env.HOSTALIASES){
-//     return process.env.HOSTALIASES
-//   } else{
-//     return '/etc/hosts'
-//   }
-// }
+/** 
+if the process.env.HOSTALIASES env var is set, try and read from that file. 
+if it does not exist, create it, but close the file. that way we can continue to use the same readFile() below
+otherwise, if on windows use the Windows hosts file, otherwise use the POSIX hosts file. 
+*/
+
+getHostsfile = function(){
+  if(process.env.HOSTALIASES){
+    if (!fs.existsSync(process.env.HOSTALIASES)) {
+      fs.closeSync(fs.openSync(process.env.HOSTALIASES, 'w'));
+    }    
+    return process.env.HOSTALIASES
+  } else if(windows){
+    return 'C:/Windows/System32/drivers/etc/hosts'    
+  } else{
+    return '/etc/hosts'
+  }
+}
 
   /**
    * Get a list of the lines that make up the filePath. If the

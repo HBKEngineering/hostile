@@ -15,7 +15,7 @@ if it does not exist, create it, but close the file. that way we can continue to
 otherwise, if on windows use the Windows hosts file, otherwise use the POSIX hosts file. 
 */
 
-function getHostsfile(){
+function getHostsFile(){
   if(process.env.HOSTALIASES){
     if (!fs.existsSync(process.env.HOSTALIASES)) {
       fs.closeSync(fs.openSync(process.env.HOSTALIASES, 'w'));

@@ -9,9 +9,10 @@ var EOL = WINDOWS
   ? '\r\n'
   : '\n'
 
-exports.HOSTS = WINDOWS
+exports.HOSTS = 
+  WINDOWS
   ? 'C:/Windows/System32/drivers/etc/hosts'
-  : '/etc/hosts'
+  : '/tmp/hosts'
 
   /**
    * Get a list of the lines that make up the filePath. If the

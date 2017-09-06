@@ -9,10 +9,15 @@ var EOL = WINDOWS
   ? '\r\n'
   : '\n'
 
-exports.HOSTS = 
-  WINDOWS
-  ? 'C:/Windows/System32/drivers/etc/hosts'
-  : '/tmp/hosts'
+exports.HOSTS = function(){
+  if(windows){
+    return 'C:/Windows/System32/drivers/etc/hosts'
+  } else if(process.env.HOSTALIASES){
+    return process.env.HOSTALIASES
+  } else{
+    return '/etc/hosts'
+  }
+}
 
   /**
    * Get a list of the lines that make up the filePath. If the
